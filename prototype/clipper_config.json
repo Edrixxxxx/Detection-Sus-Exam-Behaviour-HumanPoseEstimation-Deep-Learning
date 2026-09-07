@@ -1,0 +1,20 @@
+{
+    "_README": "Config for the IntegraPose Video Clipper, adapted for the Paryamiel/prototype 5-class exam behavior dataset. The clipper reads only `dataset_preparation`. Output goes directly into data/raw_videos/ so the existing extract_dataset.py picks it up seamlessly.",
+    "dataset_preparation": {
+        "source_directory": "data/raw_videos",
+        "key_mapping": {
+            "n": "normal",
+            "h": "hand_signal",
+            "p": "passing_of_notes",
+            "s": "side_glancing",
+            "u": "use_of_unauthorized_object"
+        },
+        "class_mapping": {
+            "normal": 0,
+            "hand_signal": 1,
+            "passing_of_notes": 2,
+            "side_glancing": 3,
+            "use_of_unauthorized_object": 4
+        }
+    }
+}

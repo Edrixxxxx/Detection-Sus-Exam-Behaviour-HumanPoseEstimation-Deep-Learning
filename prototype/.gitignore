@@ -1,0 +1,31 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.venv/
+env/
+venv/
+ENV/
+
+# Large raw video formats
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.webm
+
+# Large model formats (TensorRT / ONNX)
+*.engine
+*.onnx
+
+# Temporary test artifacts
+data/processed/test_demo_dataset.npz
+weights/test_lstm_model.pt
+
+# OS generated files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
