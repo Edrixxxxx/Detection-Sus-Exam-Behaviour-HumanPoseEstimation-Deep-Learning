@@ -14,6 +14,8 @@ from config import (
     LSTM_MODEL_PATH,
     YOLO_WEIGHTS,
     BASE_DIR,
+    PROCESSED_DIR,
+    WEIGHTS_DIR,
 )
 from model import ExamBehaviorLSTM
 from dataset import (
@@ -82,11 +84,11 @@ def test_70_15_15_split():
 
 def test_end_to_end_training():
     print(f"-> Testing synthetic extraction and training pipeline for {NUM_CLASSES} classes...")
-    demo_file = BASE_DIR / "data" / "processed" / "test_demo_dataset.npz"
+    demo_file = PROCESSED_DIR / "test_demo_dataset.npz"
     X, y = generate_synthetic_demo_dataset(num_samples=250)
     save_processed_dataset(demo_file, X, y)
 
-    model_output = BASE_DIR / "weights" / "test_lstm_model.pt"
+    model_output = WEIGHTS_DIR / "test_lstm_model.pt"
     train_model(
         dataset_path=demo_file,
         model_output_path=model_output,

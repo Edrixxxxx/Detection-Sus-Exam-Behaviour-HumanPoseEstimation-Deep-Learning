@@ -126,19 +126,92 @@ All distance metrics are normalized by the examinee's **inter-shoulder width** t
 
 ---
 
+## 📁 Repository Structure (Configuration Items)
+
+The repository is organized according to Software Configuration Management (SCM) Configuration Items (CIs):
+
+```
+Detection-Sus-Exam-Behaviour-HumanPoseEstimation-Deep-Learning/
+├── 1_Source_Code/                      # [CI 1: Source Code]
+│   ├── config.py                       # Central paths & hyperparameter config
+│   ├── model.py                        # ExamBehaviorLSTM neural network
+│   ├── dataset.py                      # Normalization, PyTorch Dataset, 70-15-15 split
+│   ├── tracker.py                      # YOLO Pose + ByteTrack manager
+│   ├── extract_dataset.py              # Sequence extraction from videos
+│   ├── train.py                        # Model training & test evaluation
+│   ├── inference.py                    # Real-time proctoring HUD engine
+│   ├── test_prototype.py               # Automated verification test suite
+│   ├── clipper.py                      # Video segmentation & labeling GUI
+│   ├── clipper_config.json             # Keybindings & class mappings
+│   └── Main/                           # Desktop application entrypoint
+│       └── main.md
+│
+├── 2_Documentation/                    # [CI 2: Documentation]
+│   ├── README.docx                     # Project documentation in Word format
+│   ├── prototype_README.md             # Prototype architecture documentation
+│   ├── INTEGRATION.md                  # Video clipper integration guide
+│   ├── thesis_papers/                  # Published thesis documentation & PDFs
+│   │   ├── DOSEBUHADL.pdf
+│   │   └── Detection-Sus-Exam-Behaviour-HumanPoseEstimation-Deep-Learning.pdf
+│   ├── audits/                         # Standards & Audit reports
+│   │   ├── Code_Quality_and_Standards_Audit.pdf
+│   │   ├── Code_Quality_and_Standards_Audit.docx
+│   │   └── generate_pdf.html
+│   ├── charts_and_graphs/              # Software engineering diagrams & specifications
+│   │   ├── DFD.md                      # Data Flow Diagrams (Levels 0, 1, 2)
+│   │   ├── ERD.md                      # Entity Relationship Diagram & schemas
+│   │   ├── HIPO.md                     # HIPO Visual Table of Contents & IPO tables
+│   │   ├── Structured_Chart.md         # Program structure chart & module tree
+│   │   ├── Pseudo_Code.md              # Algorithmic pseudocode specifications
+│   │   ├── Structured_English.md       # Operational logic in structured English
+│   │   ├── Data_Dictionary.md          # Central data dictionary for stores D1a-D8
+│   │   └── images/                     # Architectural diagram image assets
+│   └── reports/                        # Model evaluation charts & reports
+│       ├── test_evaluation_report.txt
+│       ├── confusion_matrix.png
+│       └── training_curves.png
+│
+├── 3_Dependencies_and_Environment/     # [CI 3: Dependencies/Environment]
+│   ├── requirements.txt                # Python package dependencies
+│   ├── environment.md                  # Hardware & software environment guide
+│   └── .gitignore                      # Git exclusion rules
+│
+├── 4_Data_and_Schema/                  # [CI 4: Data/Schema]
+│   ├── raw_videos/                     # Segmented behavior video clips (5 classes)
+│   │   ├── normal/
+│   │   ├── hand_signal/
+│   │   ├── passing_of_notes/
+│   │   ├── side_glancing/
+│   │   └── use_of_unauthorized_object/
+│   ├── processed/                      # Pre-processed sequential tensors (.npz)
+│   │   ├── exam_dataset.npz
+│   │   └── test_demo_dataset.npz
+│   └── schemas/                        # Data & schema specifications
+│       ├── data_schema.md
+│       └── dataset.md
+│
+└── 5_Model/                            # [CI 5: Model]
+    ├── weights/                        # Trained model checkpoints (.pt)
+    │   ├── best_lstm_model.pt
+    │   └── test_lstm_model.pt
+    └── model_spec.md                   # Model architecture specifications
+```
+
+---
+
 ## 📁 Repository Documentation Index
 
-All system architecture diagrams, specifications, charts, and data models are documented inside the **[Charts & Graphss](file:///c:/Users/gelin/OneDrive/Desktop/tisis%20sir%20joe/Detection-Sus-Exam-Behaviour-HumanPoseEstimation-Deep-Learning/Charts%20%26%20Graphss)** folder:
+All system architecture diagrams, specifications, charts, and data models are documented inside the **[`2_Documentation/charts_and_graphs/`](file:///c:/Users/USER/Desktop/SchoolWorks/tisis%20sir%20joe/Detection-Sus-Exam-Behaviour-HumanPoseEstimation-Deep-Learning/2_Documentation/charts_and_graphs)** folder:
 
 | Document File | Topic / Specification Content |
 |---|---|
-| **[DFD.md](file:///c:/Users/gelin/OneDrive/Desktop/tisis%20sir%20joe/Detection-Sus-Exam-Behaviour-HumanPoseEstimation-Deep-Learning/Charts%20%26%20Graphss/DFD.md)** | **Data Flow Diagram:** Context Diagram (Level 0), Major System Processes (Level 1), and Sub-Processes (Level 2). |
-| **[ERD.md](file:///c:/Users/gelin/OneDrive/Desktop/tisis%20sir%20joe/Detection-Sus-Exam-Behaviour-HumanPoseEstimation-Deep-Learning/Charts%20%26%20Graphss/ERD.md)** | **Entity Relationship Diagram:** Logical database schema, 15 entity definitions, data types, PK/FK constraints, and storage estimation. |
-| **[HIPO.md](file:///c:/Users/gelin/OneDrive/Desktop/tisis%20sir%20joe/Detection-Sus-Exam-Behaviour-HumanPoseEstimation-Deep-Learning/Charts%20%26%20Graphss/HIPO.md)** | **Hierarchy Plus Input-Process-Output:** Visual Table of Contents (VTOC) and detailed IPO specifications for all 21 sub-modules. |
-| **[Structured_Chart.md](file:///c:/Users/gelin/OneDrive/Desktop/tisis%20sir%20joe/Detection-Sus-Exam-Behaviour-HumanPoseEstimation-Deep-Learning/Charts%20%26%20Graphss/Structured_Chart.md)** | **Structure Chart:** Top-down program execution hierarchy, module call trees, Data Couples, and Control Couples dictionaries. |
-| **[Pseudo_Code.md](file:///c:/Users/gelin/OneDrive/Desktop/tisis%20sir%20joe/Detection-Sus-Exam-Behaviour-HumanPoseEstimation-Deep-Learning/Charts%20%26%20Graphss/Pseudo_Code.md)** | **Pseudocode Specifications:** Algorithmic pseudocode covering multi-threaded loops, YOLO inference, tracking, feature extraction, and alerting. |
-| **[Structured_English.md](file:///c:/Users/gelin/OneDrive/Desktop/tisis%20sir%20joe/Detection-Sus-Exam-Behaviour-HumanPoseEstimation-Deep-Learning/Charts%20%26%20Graphss/Structured_English.md)** | **Structured English:** Narrative operational logic using restricted English constructs (`IF-THEN-ELSE`, `FOR EACH`) for all 6 pipeline stages. |
-| **[Data_Dictionary.md](file:///c:/Users/gelin/OneDrive/Desktop/tisis%20sir%20joe/Detection-Sus-Exam-Behaviour-HumanPoseEstimation-Deep-Learning/Charts%20%26%20Graphss/Data_Dictionary.md)** | **Data Dictionary:** Centralized metadata definitions for data stores `D1a`–`D8`, 28 feature elements, logits, and data flow mappings. |
+| **[`DFD.md`](file:///c:/Users/USER/Desktop/SchoolWorks/tisis%20sir%20joe/Detection-Sus-Exam-Behaviour-HumanPoseEstimation-Deep-Learning/2_Documentation/charts_and_graphs/DFD.md)** | **Data Flow Diagram:** Context Diagram (Level 0), Major System Processes (Level 1), and Sub-Processes (Level 2). |
+| **[`ERD.md`](file:///c:/Users/USER/Desktop/SchoolWorks/tisis%20sir%20joe/Detection-Sus-Exam-Behaviour-HumanPoseEstimation-Deep-Learning/2_Documentation/charts_and_graphs/ERD.md)** | **Entity Relationship Diagram:** Logical database schema, 15 entity definitions, data types, PK/FK constraints, and storage estimation. |
+| **[`HIPO.md`](file:///c:/Users/USER/Desktop/SchoolWorks/tisis%20sir%20joe/Detection-Sus-Exam-Behaviour-HumanPoseEstimation-Deep-Learning/2_Documentation/charts_and_graphs/HIPO.md)** | **Hierarchy Plus Input-Process-Output:** Visual Table of Contents (VTOC) and detailed IPO specifications for all 21 sub-modules. |
+| **[`Structured_Chart.md`](file:///c:/Users/USER/Desktop/SchoolWorks/tisis%20sir%20joe/Detection-Sus-Exam-Behaviour-HumanPoseEstimation-Deep-Learning/2_Documentation/charts_and_graphs/Structured_Chart.md)** | **Structure Chart:** Top-down program execution hierarchy, module call trees, Data Couples, and Control Couples dictionaries. |
+| **[`Pseudo_Code.md`](file:///c:/Users/USER/Desktop/SchoolWorks/tisis%20sir%20joe/Detection-Sus-Exam-Behaviour-HumanPoseEstimation-Deep-Learning/2_Documentation/charts_and_graphs/Pseudo_Code.md)** | **Pseudocode Specifications:** Algorithmic pseudocode covering multi-threaded loops, YOLO inference, tracking, feature extraction, and alerting. |
+| **[`Structured_English.md`](file:///c:/Users/USER/Desktop/SchoolWorks/tisis%20sir%20joe/Detection-Sus-Exam-Behaviour-HumanPoseEstimation-Deep-Learning/2_Documentation/charts_and_graphs/Structured_English.md)** | **Structured English:** Narrative operational logic using restricted English constructs (`IF-THEN-ELSE`, `FOR EACH`) for all 6 pipeline stages. |
+| **[`Data_Dictionary.md`](file:///c:/Users/USER/Desktop/SchoolWorks/tisis%20sir%20joe/Detection-Sus-Exam-Behaviour-HumanPoseEstimation-Deep-Learning/2_Documentation/charts_and_graphs/Data_Dictionary.md)** | **Data Dictionary:** Centralized metadata definitions for data stores `D1a`–`D8`, 28 feature elements, logits, and data flow mappings. |
 
 ---
 
@@ -146,28 +219,20 @@ All system architecture diagrams, specifications, charts, and data models are do
 
 ### Hardware Requirements
 - **CPU:** Intel Core i7 / AMD Ryzen 7 (8+ cores recommended)
-- **GPU:** NVIDIA GeForce RTX 3060 / 4060 or higher (CUDA 11.8 support, $\ge 8$ GB VRAM)
+- **GPU:** NVIDIA GeForce RTX 3060 / 4060 or higher (CUDA 11.8+ / CUDA 12.x support, $\ge 8$ GB VRAM)
 - **RAM:** 16 GB DDR4 / DDR5
 - **Cameras:** Dual 1080p USB / RTSP Webcams (30 FPS capability)
 
 ### Software Prerequisites
 - **Operating System:** Windows 10 / 11 (64-bit)
-- **Python Version:** Python 3.10.x
+- **Python Version:** Python 3.10 to Python 3.13
 - **Core Libraries:**
   ```bash
   # Deep Learning & Computer Vision
-  torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-  ultralytics               # YOLOv26s-pose backend
+  torch torchvision torchaudio
+  ultralytics               # YOLO pose backend
   opencv-python            # Video capture & homography warping
-  insightface              # ArcFace antelopev2 face embeddings
-
-  # Machine Learning & Analytics
-  xgboost                  # Hand gesture classifier
-  scikit-learn             # Platt scaling calibration & metrics
-  numpy pandas             # Feature matrix manipulation
-
-  # Desktop User Interface
-  PyQt6                    # Desktop GUI application framework
+  numpy matplotlib lap     # Tracking, data analysis & plotting
   ```
 
 ---
@@ -188,14 +253,26 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 2. Configuration & Model Initialization
-1. Ensure dual cameras are connected and updated in `config.yaml` stream URLs.
-2. Download pre-trained `YOLOv26s-pose.pt` and place in `Main/models/`.
-3. Load student facial roster images into `Datasets/roster/` for ArcFace embedding generation.
-
-### 3. Launching Application
+### 2. Running Automated Verification Suite
 ```bash
-python Main/main.py
+cd 1_Source_Code
+python test_prototype.py
+```
+
+### 3. Running Real-Time Proctoring Inference
+```bash
+cd 1_Source_Code
+# Live webcam:
+python inference.py --source 0
+
+# Video file:
+python inference.py --source /path/to/test_video.mp4
+```
+
+### 4. Training the Model
+```bash
+cd 1_Source_Code
+python train.py --epochs 50 --batch-size 32
 ```
 
 ---

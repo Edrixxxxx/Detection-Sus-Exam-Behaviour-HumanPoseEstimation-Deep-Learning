@@ -57,37 +57,43 @@ This project is an end-to-end intelligent proctoring prototype designed to autom
 
 ---
 
-## 2. Project Directory Structure
+## 2. Project Directory Structure (Configuration Items)
 
 ```
-prototype/
-├── clipper.py                # Video clipper and labeler GUI (keyboard-driven segmentation)
-├── clipper_config.json       # Clipper configuration and class key bindings
-├── config.py                 # Central configurations (5 classes, paths, hyperparameters)
-├── model.py                  # PyTorch LSTM classification model architecture
-├── dataset.py                # Dataset loader, pose normalization, and 70-15-15 split
-├── tracker.py                # YOLO26s-pose + ByteTrack tracking and buffer manager
-├── extract_dataset.py        # Video sequence feature extraction pipeline for 5 classes
-├── train.py                  # Model training, early stopping, and 70-15-15 test evaluation
-├── inference.py              # Real-time live webcam and video file proctoring engine
-├── test_prototype.py         # Automated verification suite (5-class testing)
-├── INTEGRATION.md            # Clipper integration documentation and AGPL-3.0 attribution
-├── requirements.txt          # Python dependencies
-├── data/
-│   ├── raw_videos/           # Place your raw video clips in their respective class folders
+Detection-Sus-Exam-Behaviour-HumanPoseEstimation-Deep-Learning/
+├── 1_Source_Code/
+│   ├── config.py                 # Central configurations (5 classes, paths, hyperparameters)
+│   ├── model.py                  # PyTorch LSTM classification model architecture
+│   ├── dataset.py                # Dataset loader, pose normalization, and 70-15-15 split
+│   ├── tracker.py                # YOLO Pose + ByteTrack tracking and buffer manager
+│   ├── extract_dataset.py        # Video sequence feature extraction pipeline for 5 classes
+│   ├── train.py                  # Model training, early stopping, and 70-15-15 test evaluation
+│   ├── inference.py              # Real-time live webcam and video file proctoring engine
+│   ├── test_prototype.py         # Automated verification suite (5-class testing)
+│   ├── clipper.py                # Video clipper and labeler GUI (keyboard-driven segmentation)
+│   └── clipper_config.json       # Clipper configuration and class key bindings
+├── 2_Documentation/
+│   ├── prototype_README.md       # This prototype documentation
+│   ├── INTEGRATION.md            # Clipper integration documentation
+│   ├── charts_and_graphs/        # DFD, ERD, HIPO, Structured Charts & Data Dictionary
+│   └── reports/
+│       ├── confusion_matrix.png  # 5x5 Confusion matrix plot on 15% held-out test data
+│       ├── training_curves.png   # Train/Validation loss and accuracy curves
+│       └── test_evaluation_report.txt # Detailed metrics (Precision, Recall, F1, Support)
+├── 3_Dependencies_and_Environment/
+│   └── requirements.txt          # Python dependencies
+├── 4_Data_and_Schema/
+│   ├── raw_videos/               # Place raw video clips in respective class folders
 │   │   ├── normal/
 │   │   ├── hand_signal/
 │   │   ├── passing_of_notes/
 │   │   ├── side_glancing/
 │   │   └── use_of_unauthorized_object/
 │   └── processed/
-│       └── exam_dataset.npz  # Extracted sequences ready for LSTM training
-├── weights/
-│   └── best_lstm_model.pt    # Saved best checkpoint of the trained 5-class LSTM classifier
-└── reports/
-    ├── confusion_matrix.png  # 5x5 Confusion matrix plot on 15% held-out test data
-    ├── training_curves.png   # Train/Validation loss and accuracy curves
-    └── test_evaluation_report.txt # Detailed metrics (Precision, Recall, F1, Support)
+│       └── exam_dataset.npz      # Extracted sequences ready for LSTM training
+└── 5_Model/
+    └── weights/
+        └── best_lstm_model.pt    # Saved best checkpoint of the trained 5-class LSTM classifier
 ```
 
 ---

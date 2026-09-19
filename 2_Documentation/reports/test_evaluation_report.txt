@@ -1,0 +1,20 @@
+Examination Behavior Classifier - Test Evaluation Report
+========================================================
+Test Accuracy:    80.00%
+Macro Precision:  70.00%
+Macro Recall:     80.00%
+Macro F1-Score:   73.33%
+
+Per-Class Details:
+ - normal: Prec=50.00%, Rec=100.00%, F1=66.67%, Support=7
+ - hand_signal: Prec=100.00%, Rec=100.00%, F1=100.00%, Support=7
+ - passing_of_notes: Prec=0.00%, Rec=0.00%, F1=0.00%, Support=7
+ - side_glancing: Prec=100.00%, Rec=100.00%, F1=100.00%, Support=7
+ - use_of_unauthorized_object: Prec=100.00%, Rec=100.00%, F1=100.00%, Support=7
+
+Confusion Matrix:
+[[7 0 0 0 0]
+ [0 7 0 0 0]
+ [7 0 0 0 0]
+ [0 0 0 7 0]
+ [0 0 0 0 7]]

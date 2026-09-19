@@ -2,11 +2,36 @@ import os
 from pathlib import Path
 
 # Base Paths
-BASE_DIR = Path(__file__).resolve().parent
-DATA_DIR = BASE_DIR / "data"
+SOURCE_DIR = Path(__file__).resolve().parent
+REPO_ROOT = SOURCE_DIR.parent if (SOURCE_DIR.parent / "4_Data_and_Schema").exists() else SOURCE_DIR
+BASE_DIR = SOURCE_DIR  # Preserved for backward compatibility
+
+# 4_Data_and_Schema Paths
+if (REPO_ROOT / "4_Data_and_Schema").exists():
+    DATA_DIR = REPO_ROOT / "4_Data_and_Schema"
+elif (SOURCE_DIR / "data").exists():
+    DATA_DIR = SOURCE_DIR / "data"
+else:
+    DATA_DIR = REPO_ROOT / "4_Data_and_Schema"
+
 RAW_VIDEOS_DIR = DATA_DIR / "raw_videos"
 PROCESSED_DIR = DATA_DIR / "processed"
-WEIGHTS_DIR = BASE_DIR / "weights"
+
+# 5_Model Paths
+if (REPO_ROOT / "5_Model" / "weights").exists():
+    WEIGHTS_DIR = REPO_ROOT / "5_Model" / "weights"
+elif (SOURCE_DIR / "weights").exists():
+    WEIGHTS_DIR = SOURCE_DIR / "weights"
+else:
+    WEIGHTS_DIR = REPO_ROOT / "5_Model" / "weights"
+
+# 2_Documentation Reports Path
+if (REPO_ROOT / "2_Documentation" / "reports").exists():
+    REPORTS_DIR = REPO_ROOT / "2_Documentation" / "reports"
+elif (SOURCE_DIR / "reports").exists():
+    REPORTS_DIR = SOURCE_DIR / "reports"
+else:
+    REPORTS_DIR = REPO_ROOT / "2_Documentation" / "reports"
 
 # Dataset & Model Paths
 DATASET_FILE = PROCESSED_DIR / "exam_dataset.npz"
@@ -16,10 +41,12 @@ LSTM_MODEL_PATH = WEIGHTS_DIR / "best_lstm_model.pt"
 _CANDIDATE_YOLO_WEIGHTS = [
     WEIGHTS_DIR / "yolo26s-pose.pt",
     WEIGHTS_DIR / "yolo26s-pose.engine",
-    BASE_DIR.parent / "yolo25s-pose" / "yolo26s-pose.pt",
-    BASE_DIR.parent / "yolo25s-pose" / "yolo26s-pose.engine",
-    BASE_DIR / "yolo26s-pose.pt",
-    BASE_DIR / "yolo11s-pose.pt",
+    REPO_ROOT.parent / "yolo25s-pose" / "yolo26s-pose.pt",
+    REPO_ROOT.parent / "yolo25s-pose" / "yolo26s-pose.engine",
+    REPO_ROOT / "yolo26s-pose.pt",
+    REPO_ROOT / "yolo11s-pose.pt",
+    SOURCE_DIR / "yolo26s-pose.pt",
+    SOURCE_DIR / "yolo11s-pose.pt",
 ]
 
 def resolve_yolo_weights() -> str:
@@ -27,7 +54,7 @@ def resolve_yolo_weights() -> str:
     for p in _CANDIDATE_YOLO_WEIGHTS:
         if p.exists():
             return str(p)
-    default_path = BASE_DIR.parent / "yolo25s-pose" / "yolo26s-pose.pt"
+    default_path = REPO_ROOT.parent / "yolo25s-pose" / "yolo26s-pose.pt"
     if default_path.exists():
         return str(default_path)
     return "yolo11s-pose.pt"
@@ -51,7 +78,7 @@ NUM_CLASSES = len(CLASSES)
 RAW_CLASS_DIRS = {cls: RAW_VIDEOS_DIR / cls for cls in CLASSES}
 
 # Ensure all folders exist
-for directory in [DATA_DIR, RAW_VIDEOS_DIR, PROCESSED_DIR, WEIGHTS_DIR, *RAW_CLASS_DIRS.values()]:
+for directory in [DATA_DIR, RAW_VIDEOS_DIR, PROCESSED_DIR, WEIGHTS_DIR, REPORTS_DIR, *RAW_CLASS_DIRS.values()]:
     directory.mkdir(parents=True, exist_ok=True)
 
 # Pose & Temporal Sequence Settings

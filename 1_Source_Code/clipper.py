@@ -92,7 +92,20 @@ class VideoClipperApp:
         try:
             prep_config = config["dataset_preparation"]
             self.key_mapping: Dict[str, str] = prep_config["key_mapping"]
-            self.clip_save_dir: str = prep_config["source_directory"]
+            raw_save_dir = prep_config["source_directory"]
+            if os.path.isabs(raw_save_dir):
+                self.clip_save_dir = raw_save_dir
+            else:
+                script_dir = Path(__file__).resolve().parent
+                cand1 = (script_dir / raw_save_dir).resolve()
+                cand2 = (script_dir.parent / raw_save_dir).resolve()
+                if cand1.exists():
+                    self.clip_save_dir = str(cand1)
+                elif cand2.exists():
+                    self.clip_save_dir = str(cand2)
+                else:
+                    from config import RAW_VIDEOS_DIR
+                    self.clip_save_dir = str(RAW_VIDEOS_DIR)
         except KeyError as e:
             messagebox.showerror("Config Error", f"Missing required key in clipper_config.json: {e}")
             self.root.destroy()

@@ -31,6 +31,7 @@ from config import (
     TEST_RATIO,
     RANDOM_SEED,
     BASE_DIR,
+    REPORTS_DIR,
 )
 from model import ExamBehaviorLSTM
 from dataset import ExamPoseDataset, load_processed_dataset, split_dataset_70_15_15
@@ -355,7 +356,7 @@ def train_model(
         print(f" {actual_cls:<26} {row_vals}")
 
     # 8. Save Visual Reports
-    reports_dir = BASE_DIR / "reports"
+    reports_dir = REPORTS_DIR
     plot_and_save_reports(history, metrics["confusion_matrix"], reports_dir)
 
     # Save metrics summary text file
