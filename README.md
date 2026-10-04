@@ -253,13 +253,24 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 2. Running Automated Verification Suite
+### 2. Running Desktop Proctoring UI (Graphical Interface)
+Launch the graphical interface directly without typing terminal arguments:
+```bash
+# Option A: 1-Click Launch (Double-click in Windows Explorer)
+run_ui.bat
+
+# Option B: Terminal Command
+python main.py
+```
+*The UI allows you to select live webcams or browse video recordings, adjust thresholds, see real-time alert logs, and export audit reports.*
+
+### 3. Running Automated Verification Suite
 ```bash
 cd 1_Source_Code
 python test_prototype.py
 ```
 
-### 3. Running Real-Time Proctoring Inference
+### 4. Running Headless / CLI Proctoring (Alternative)
 ```bash
 cd 1_Source_Code
 # Live webcam:
@@ -269,7 +280,7 @@ python inference.py --source 0
 python inference.py --source /path/to/test_video.mp4
 ```
 
-### 4. Training the Model
+### 5. Training the Model
 ```bash
 cd 1_Source_Code
 python train.py --epochs 50 --batch-size 32

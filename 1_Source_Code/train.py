@@ -217,7 +217,7 @@ def train_model(
     ).to(device)
 
     optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=WEIGHT_DECAY)
-    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode="min", factor=0.5, patience=3, verbose=True)
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode="min", factor=0.5, patience=3)
 
     # 6. Training Loop with Early Stopping
     history = {"train_loss": [], "val_loss": [], "train_acc": [], "val_acc": []}
@@ -347,8 +347,8 @@ def train_model(
     for cls_name, vals in metrics["per_class"].items():
         print(f" {cls_name:<14} {vals['precision']*100:9.2f}% {vals['recall']*100:9.2f}% {vals['f1']*100:9.2f}% {vals['support']:<8}")
 
-    print(f"\nConfusion Matrix (Rows=Actual, Cols=Predicted):")
-    header = f" {'Actual \\ Pred':<26} " + " ".join([f"{cls[:10]:<12}" for cls in CLASSES])
+    pred_col_title = "Actual \\ Pred"
+    header = f" {pred_col_title:<26} " + " ".join([f"{cls[:10]:<12}" for cls in CLASSES])
     print(header)
     print(" " + "-" * len(header))
     for i, actual_cls in enumerate(CLASSES):
