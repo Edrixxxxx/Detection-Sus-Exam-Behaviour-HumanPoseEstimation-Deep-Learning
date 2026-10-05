@@ -1,0 +1,48 @@
+flowchart TB
+    %% External Entities
+    E1["📷 Camera 1<br>(Middle Top View / 1080p @ 30 FPS)"]
+    E2["📷 Camera 2<br>(Top Side View / 1080p @ 30 FPS)"]
+    E3["👨‍🎓 Examinees / Students<br>(Observed Subjects)"]
+    E4["👨‍🏫 Proctor / Instructor<br>(PyQt6 Monitoring GUI)"]
+    E5["🛠️ System Administrator<br>(Configuration & Calibration)"]
+
+    %% Central Process
+    P0(("<b>0.0 Suspicious Examination Behaviour<br>Detection System</b><br><i>(PyQt6 Desktop Application)</i>"))
+
+    %% Data Stores
+    D5[("<b>D5: Alert & Incident Log</b><br>• Incident timestamps<br>• Examinee ID & behavior<br>• Calibrated confidence<br>• Evidence snapshot paths")]
+    D6[("<b>D6: Model Weights & Checkpoints</b><br>• YOLOv26s-pose FP16<br>• ArcFace antelopev2<br>• PyTorch LSTM / XGBoost<br>• Platt scaling (A, B)")]
+    D7[("<b>D7: System Configuration</b><br>• Homography matrices (3x3)<br>• Seating layout roster<br>• Alert sensitivity sliders<br>• pHash & blur thresholds")]
+    D8[("<b>D8: Video Archive</b><br>• Raw dual MP4 streams<br>• Flagged video clips")]
+
+    %% Physical World Inflow
+    E3 -.->|"Physical poses, gestures & eye movements"| E1
+    E3 -.->|"Physical poses, gestures & eye movements"| E2
+
+    %% Inflows to Process 0.0
+    E1 -->|"Dual 1080p @ 30 FPS RGB Stream"| P0
+    E2 -->|"Dual 1080p @ 30 FPS RGB Stream"| P0
+    E4 -->|"Proctor Controls (Start/Stop, Acknowledge Alert, Adjust Thresholds)"| P0
+    E5 -->|"Homography calibration matrix, student roster & model updates"| P0
+
+    %% Outflows from Process 0.0
+    P0 -->|"Real-time graduated alerts (Yellow / Orange / Red)"| E4
+    P0 -->|"Live video overlay (Bounding boxes, skeletons & status badges)"| E4
+    P0 -->|"Audible alert chime & high-severity visual flashing"| E4
+    P0 -->|"Evidence snapshots & exportable post-exam audit reports (PDF/CSV)"| E4
+    P0 -->|"Real-time FPS benchmarks, pipeline status & diagnostics"| E5
+
+    %% Data Store Interactions
+    P0 <-->|"Query & persist alert records and evidence paths"| D5
+    D6 -->|"Load neural network weights & calibration coefficients"| P0
+    D7 -->|"Fetch camera homography, seat roster & detection thresholds"| P0
+    P0 -->|"Archive raw continuous recordings & evidence clips"| D8
+
+    %% Styling
+    classDef entity fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#f8fafc;
+    classDef process fill:#0f766e,stroke:#2dd4bf,stroke-width:3px,color:#ffffff;
+    classDef datastore fill:#312e81,stroke:#818cf8,stroke-width:2px,color:#e0e7ff;
+
+    class E1,E2,E3,E4,E5 entity;
+    class P0 process;
+    class D5,D6,D7,D8 datastore;

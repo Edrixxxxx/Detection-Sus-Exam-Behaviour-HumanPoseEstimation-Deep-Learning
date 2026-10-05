@@ -1,0 +1,77 @@
+flowchart TB
+    %% External Entities
+    subgraph Entities ["External Entities"]
+        E1["📷 Camera 1<br>(Middle Top View)"]
+        E2["📷 Camera 2<br>(Top Side View)"]
+        E4["👨‍🏫 Proctor / Instructor<br>(PyQt6 Monitoring GUI)"]
+        E5["🛠️ System Administrator"]
+    end
+
+    %% Data Stores
+    subgraph Stores ["Data Stores"]
+        D1a[("<b>D1a: Raw Frame Buffer</b><br>Unprocessed 1080p RGB matrices")]
+        D1b[("<b>D1b: Clean Frame Buffer</b><br>Normalized 640x640 BGR tensors")]
+        D2a[("<b>D2a: Keypoint Detections Store</b><br>Person BBoxes & 17 Keypoints")]
+        D2b[("<b>D2b: Track & State Store</b><br>ByteTrack IDs & 60-frame queues")]
+        D3[("<b>D3: Feature Store</b><br>Normalized 28-feature vectors")]
+        D4[("<b>D4: Classification Store</b><br>Class labels & calibrated probs")]
+        D5[("<b>D5: Alert & Incident Log</b><br>Logged incidents & snapshot paths")]
+        D6[("<b>D6: Model Weights Store</b><br>YOLO, ArcFace, LSTM/XGBoost, Platt")]
+        D7[("<b>D7: System Configuration</b><br>Homography, seat roster, thresholds")]
+        D8[("<b>D8: Video Archive</b><br>Continuous raw MP4 recordings")]
+    end
+
+    %% Processes
+    subgraph Pipeline ["Level 1 Major Processes"]
+        P1["<b>1.0 Video Ingestion & Spatial Pre-Processing</b><br>Capture, Laplacian blur filter, pHash duplicate drop,<br>letterbox 640x640, 3x3 homography warp"]
+        P2["<b>2.0 Pose Estimation, Tracking & Identity Verification</b><br>YOLOv26s-pose FP16 inference (3 FPS), ByteTrack Kalman filter,<br>ArcFace Re-ID (10s), 60-frame FIFO state queue"]
+        P3["<b>3.0 28-Feature Extraction & Normalization</b><br>Static geometry (1-16), Temporal dynamics (17-22),<br>Contextual interaction (23-26), Inter-shoulder scaling (27-28)"]
+        P4["<b>4.0 Hybrid Behaviour Classification</b><br>Head heuristics (yaw/pitch), Hand gesture classifier (XGBoost/LSTM),<br>Workspace rules, Platt scaling probability calibration"]
+        P5["<b>5.0 Temporal Aggregation, Alerting & Reporting</b><br>3-second buffer consensus (9 samples), Graduated severity rules,<br>UI toast/chime/snapshot dispatch, Audit report generator"]
+    end
+
+    %% Inflows to Process 1.0
+    E1 -->|"1080p @ 30 FPS Stream 1"| P1
+    E2 -->|"1080p @ 30 FPS Stream 2"| P1
+    D7 -->|"Homography matrix, blur & pHash thresholds"| P1
+    P1 -->|"Raw RGB matrices"| D1a
+    P1 -->|"Continuous stream"| D8
+    P1 -->|"Aligned 640x640 tensors"| D1b
+
+    %% Inflows to Process 2.0
+    D1b -->|"Sampled clean frames (3 FPS / 333ms)"| P2
+    D6 -->|"YOLOv26s-pose FP16 & ArcFace embeddings"| P2
+    D7 -->|"Seating layout & student identity roster"| P2
+    P2 -->|"Bounding boxes & 17 raw keypoints"| D2a
+    D2a -->|"Frame keypoints"| P2
+    P2 -->|"Persistent tracks & 60-frame pose history"| D2b
+
+    %% Inflows to Process 3.0
+    D2b -->|"60-frame keypoint history per active track"| P3
+    D7 -->|"Inter-shoulder distance normalization parameters"| P3
+    P3 -->|"Normalized 28-element feature vectors"| D3
+
+    %% Inflows to Process 4.0
+    D3 -->|"28-feature vectors (static, dynamic, contextual)"| P4
+    D6 -->|"Trained classifier weights & Platt parameters (A, B)"| P4
+    P4 -->|"Calibrated probabilities & discrete class labels"| D4
+
+    %% Inflows to Process 5.0
+    D4 -->|"Real-time behavioral predictions"| P5
+    D1b -.->|"Reference clean video frame"| P5
+    D7 -->|"Alert severity thresholds (Yellow, Orange, Red)"| P5
+    P5 -->|"Graduated alerts, audio chimes & bounding box overlays"| E4
+    P5 -->|"Flagged evidence snapshots & post-exam audit reports"| E4
+    E4 -->|"Acknowledge alert / modify sensitivity slider"| P5
+    P5 -->|"Commit incident record, confidence & snapshot URI"| D5
+    E5 -->|"Update calibration matrices, seating plan & thresholds"| D7
+    E5 -->|"Deploy fine-tuned neural model checkpoints"| D6
+
+    %% Styling
+    classDef entity fill:#1e293b,stroke:#38bdf8,stroke-width:2px,color:#f8fafc;
+    classDef process fill:#0f766e,stroke:#2dd4bf,stroke-width:2px,color:#ffffff;
+    classDef datastore fill:#312e81,stroke:#818cf8,stroke-width:2px,color:#e0e7ff;
+
+    class E1,E2,E4,E5 entity;
+    class P1,P2,P3,P4,P5 process;
+    class D1a,D1b,D2a,D2b,D3,D4,D5,D6,D7,D8 datastore;
